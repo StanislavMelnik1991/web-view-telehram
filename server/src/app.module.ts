@@ -5,14 +5,10 @@ import { User } from './models/user.entity';
 import { Settings } from './models/settings.entity';
 import { Game } from './models/game.entity';
 import { Card } from './models/card.entity';
-import { AuthService } from './auth/auth.service';
-import { AuthModule } from './auth/auth.module';
-import { StatisticController } from './statistic/statistic.controller';
-import { AuthController } from './auth/auth.controller';
-import { StatisticModule } from './statistic/statistic.module';
-import { StatisticService } from './statistic/statistic.service';
 import { Round } from './models/round.entity';
 import { Step } from './models/step.entity';
+import { AuthModule } from './auth/auth.module';
+import { StatisticModule } from './statistic/statistic.module';
 
 @Module({
   imports: [
@@ -31,7 +27,7 @@ import { Step } from './models/step.entity';
     AuthModule,
     StatisticModule,
   ],
-  controllers: [AuthController, StatisticController],
-  providers: [AuthService, StatisticService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

@@ -9,21 +9,27 @@ import {
 } from 'typeorm';
 import { Round } from './round.entity';
 import { Step } from './step.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('user')
 export class User extends BaseEntity {
+  @ApiProperty({ example: '1', description: 'user id', type: 'number' })
   @PrimaryGeneratedColumn()
   id!: number;
 
+  @ApiProperty({ example: 'ivan', description: 'user name' })
   @Column({ nullable: false })
   name!: string;
 
+  @ApiProperty({ example: 'password', description: 'user password' })
   @Column({ nullable: false })
   password!: string;
 
-  @Column()
+  @ApiProperty({ example: 'img.jpeg', description: 'image url' })
+  @Column({ nullable: true })
   img!: string;
 
+  @ApiProperty({ example: 'ivan@mail.ru', description: 'user email' })
   @Column({
     unique: true,
     nullable: false,
