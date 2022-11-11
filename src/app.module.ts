@@ -16,7 +16,7 @@ import { GameSettingsModule } from './game-settings/game-settings.module';
 import { StepModule } from './step/step.module';
 import { RoleModule } from './role/role.module';
 import { Role } from './role/role.entity';
-import { UserRole } from './role/userRole.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { UserRole } from './role/userRole.entity';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_NAME,
       logging: true,
-      entities: [User, Settings, Game, Card, Round, Step, Role, UserRole],
+      entities: [User, Settings, Game, Card, Round, Step, Role],
       synchronize: true,
     }),
     UserModule,
@@ -40,6 +40,7 @@ import { UserRole } from './role/userRole.entity';
     GameSettingsModule,
     StepModule,
     RoleModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

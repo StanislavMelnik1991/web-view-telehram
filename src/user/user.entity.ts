@@ -6,10 +6,13 @@ import {
   Column,
   BaseEntity,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Round } from '../round/round.entity';
 import { Step } from '../step/step.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Role } from 'src/role/role.entity';
 
 @Entity('user')
 export class User extends BaseEntity {
@@ -39,6 +42,9 @@ export class User extends BaseEntity {
   @OneToMany(() => Round, (round) => round.spy)
   @OneToMany(() => Step, (step) => step.user)
   @OneToMany(() => Step, (step) => step.spy)
+  @ManyToMany(() => Role)
+  @JoinTable()
+  roles: Role[];
   @CreateDateColumn()
   createdAt!: Date;
 

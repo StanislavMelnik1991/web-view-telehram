@@ -18,11 +18,17 @@ export class CardService {
   }
 
   async getCard({ id }: GetCardDto) {
-    const card = await this.cardRepository.findOne({ where: { id } });
+    const card = await this.cardRepository.findOne({
+      where: { id },
+      relations: { setting: true },
+    });
     return card;
   }
   async getAllCards({ id }: GetCardDto) {
-    const cards = await this.cardRepository.find({ where: { setting: id } });
+    const cards = await this.cardRepository.find({
+      where: { setting: id },
+      relations: { setting: true },
+    });
     return cards;
   }
 }

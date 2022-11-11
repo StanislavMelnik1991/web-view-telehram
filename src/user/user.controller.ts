@@ -1,26 +1,22 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, UseGuards, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/user/user.entity';
 import { UserService } from './user.service';
-import { SignInDto, SignUpDto } from './dto';
+import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { ROLE } from 'src/role/constants';
 
-@ApiTags('Auth')
-@Controller('api/v1/auth')
+@ApiTags('User')
+@Controller('api/v1/user')
 export class UserController {
   constructor(private userService: UserService) {}
-  @ApiOperation({ summary: 'user creation' })
-  @ApiResponse({ status: 200, type: User })
-  @Post('signup')
-  signUp(@Body() dto: SignUpDto) {
-    const user = this.userService.singUp(dto);
-    return user;
-  }
-
-  @ApiOperation({ summary: 'user login' })
-  @ApiResponse({ status: 200, type: User })
-  @Post('signin')
-  signIn(@Body() dto: SignInDto) {
-    const user = this.userService.singIn(dto);
-    return user;
+  @ApiOperation({ summary: 'get all users' })
+  @ApiResponse({ status: 200, type: [User] })
+  @Roles(ROLE.ADMIN, ROLE.SUPER_ADMIN)
+  @UseGuards(RolesGuard)
+  @Get()
+  getAll() {
+    const users = this.userService.getAllUser();
+    return users;
   }
 }

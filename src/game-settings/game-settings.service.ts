@@ -15,4 +15,10 @@ export class GameSettingsService {
     const setting = this.settingsRepository.create({ difficulty });
     await this.settingsRepository.save(setting);
   }
+  async findByDifficulty({ difficulty }: CreateSettingDto) {
+    const setting = await this.settingsRepository.findOne({
+      where: { difficulty },
+    });
+    return setting;
+  }
 }

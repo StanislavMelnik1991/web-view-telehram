@@ -5,11 +5,11 @@ import {
   PrimaryGeneratedColumn,
   Column,
   BaseEntity,
-  OneToMany,
+  ManyToMany,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { UserRole } from './userRole.entity';
 import { ROLE } from './constants';
+import { User } from 'src/user/user.entity';
 
 @Entity('role')
 export class Role extends BaseEntity {
@@ -25,7 +25,7 @@ export class Role extends BaseEntity {
   @Column()
   description!: string;
 
-  @OneToMany(() => UserRole, (userRole) => userRole.role)
+  @ManyToMany(() => User)
   @CreateDateColumn()
   createdAt!: Date;
 
