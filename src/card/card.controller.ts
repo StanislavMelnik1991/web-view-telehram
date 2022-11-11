@@ -9,10 +9,13 @@ export class CardController {
   constructor(private cardService: CardService) {}
   @ApiOperation({ summary: 'new card creation' })
   @ApiResponse({ status: 200 })
-  @Post('/create')
-  createCard(@Body() newCard: CreateCardBody) {
-    const id = this.cardService.createCard(newCard);
-    return id;
+  @Post('/:id')
+  createCard(@Body() newCard: CreateCardBody, @Param('id') id: string) {
+    const cardId = this.cardService.createCard({
+      ...newCard,
+      settingsId: Number(id),
+    });
+    return cardId;
   }
 
   @ApiOperation({ summary: 'user role creation' })

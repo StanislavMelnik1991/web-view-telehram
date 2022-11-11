@@ -10,9 +10,6 @@ export class CreateCardBody {
 
   @ApiProperty({ description: 'card name' })
   readonly name: string;
-
-  @ApiProperty({ description: 'settings id' })
-  readonly settingsId: number;
 }
 
 export type CreateCardParams = number;
