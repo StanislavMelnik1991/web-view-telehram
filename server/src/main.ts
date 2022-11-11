@@ -6,10 +6,9 @@ async function bootstrap() {
   const PORT = Number(process.env.PORT) || 3000;
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('title')
-    .setDescription('descryption')
-    .setVersion('v1')
-    .addTag('tag')
+    .setTitle('Spy')
+    .setDescription('game "spy"')
+    .setVersion('v1.0.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

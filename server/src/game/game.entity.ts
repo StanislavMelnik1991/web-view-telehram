@@ -7,7 +7,7 @@ import {
   BaseEntity,
   ManyToOne,
 } from 'typeorm';
-import { Settings } from './settings.entity';
+import { Settings } from '../game-settings/settings.entity';
 
 @Entity('game')
 export class Game extends BaseEntity {
@@ -18,6 +18,9 @@ export class Game extends BaseEntity {
     nullable: true,
   })
   isFinish!: boolean;
+
+  @Column()
+  password!: string;
 
   @ManyToOne(() => Settings, (settings) => settings.id)
   setting!: number;

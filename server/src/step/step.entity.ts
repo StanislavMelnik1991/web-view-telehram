@@ -6,9 +6,9 @@ import {
   BaseEntity,
   ManyToOne,
 } from 'typeorm';
-import { Card } from './card.entity';
-import { Round } from './round.entity';
-import { User } from './user.entity';
+import { Card } from '../card/card.entity';
+import { Round } from '../round/round.entity';
+import { User } from '../user/user.entity';
 
 @Entity('step')
 export class Step extends BaseEntity {

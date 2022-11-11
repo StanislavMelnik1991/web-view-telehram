@@ -7,8 +7,9 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { Card } from './card.entity';
-import { Game } from './game.entity';
+import { Card } from '../card/card.entity';
+import { Game } from '../game/game.entity';
+import { DIFFICULTY } from './constants';
 
 @Entity('settings')
 export class Settings extends BaseEntity {
@@ -17,9 +18,10 @@ export class Settings extends BaseEntity {
 
   @Column({
     unique: true,
-    nullable: false,
+    type: 'enum',
+    enum: DIFFICULTY,
   })
-  difficulty!: string;
+  difficulty!: DIFFICULTY;
 
   @OneToMany(() => Card, (card) => card.setting)
   cards!: Card[];

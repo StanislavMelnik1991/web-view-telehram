@@ -7,9 +7,9 @@ import {
   BaseEntity,
   ManyToOne,
 } from 'typeorm';
-import { Card } from './card.entity';
-import { Game } from './game.entity';
-import { User } from './user.entity';
+import { Card } from '../card/card.entity';
+import { Game } from '../game/game.entity';
+import { User } from '../user/user.entity';
 
 @Entity('round')
 export class Round extends BaseEntity {

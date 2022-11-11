@@ -7,8 +7,8 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { Round } from './round.entity';
-import { Step } from './step.entity';
+import { Round } from '../round/round.entity';
+import { Step } from '../step/step.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('user')

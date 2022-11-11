@@ -8,9 +8,9 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { Round } from './round.entity';
-import { Settings } from './settings.entity';
-import { Step } from './step.entity';
+import { Round } from '../round/round.entity';
+import { Settings } from '../game-settings/settings.entity';
+import { Step } from '../step/step.entity';
 
 @Entity('card')
 export class Card extends BaseEntity {
