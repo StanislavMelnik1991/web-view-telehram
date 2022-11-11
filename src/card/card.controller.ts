@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CardService } from './card.service';
 import { CreateCardBody } from './types';
@@ -17,16 +17,16 @@ export class CardController {
 
   @ApiOperation({ summary: 'user role creation' })
   @ApiResponse({ status: 200 })
-  @Get('/')
-  getCard(@Query('id') id: string) {
+  @Get('/:id')
+  getCard(@Param('id') id: string) {
     const card = this.cardService.getCard({ id: Number(id) });
     return card;
   }
 
   @ApiOperation({ summary: 'user role creation' })
   @ApiResponse({ status: 200 })
-  @Get('/settings/')
-  getAllCard(@Query('id') id: string) {
+  @Get('/settings/:id')
+  getAllCard(@Param('id') id: string) {
     const cards = this.cardService.getAllCards({ id: Number(id) });
     return cards;
   }

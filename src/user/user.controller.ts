@@ -4,7 +4,7 @@ import { User } from 'src/user/user.entity';
 import { UserService } from './user.service';
 import { SignInDto, SignUpDto } from './dto';
 
-@ApiTags('auth')
+@ApiTags('Auth')
 @Controller('api/v1/auth')
 export class UserController {
   constructor(private userService: UserService) {}

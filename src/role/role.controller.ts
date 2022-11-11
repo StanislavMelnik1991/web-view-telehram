@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateRoleBody, CreateUserRoleBody } from './types';
 import { RoleService } from './role.service';
 
-@ApiTags('role')
+@ApiTags('Role')
 @Controller('api/v1/role')
 export class RoleController {
   constructor(private roleService: RoleService) {}
