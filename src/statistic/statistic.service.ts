@@ -5,7 +5,7 @@ import { Game } from 'src/game/game.entity';
 import { Round } from 'src/round/round.entity';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
-import { GetGameDto } from './dto';
+import { GetGameDto } from './types';
 
 @Injectable()
 export class StatisticService {

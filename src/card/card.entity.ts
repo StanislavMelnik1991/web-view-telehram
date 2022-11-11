@@ -17,13 +17,9 @@ export class Card extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({
-    unique: true,
-  })
+  @Column()
   img!: string;
-  @Column({
-    unique: true,
-  })
+  @Column()
   name!: string;
 
   @ManyToOne(() => Settings, (setting) => setting.cards, {

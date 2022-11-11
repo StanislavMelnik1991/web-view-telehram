@@ -1,10 +1,6 @@
-import { Body, Controller, Post, Param, Get } from '@nestjs/common';
+import { Body, Controller, Post, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import {
-  CreateRoleBody,
-  CreateUserRoleBody,
-  CreateUserRoleParams,
-} from './types';
+import { CreateRoleBody, CreateUserRoleBody } from './types';
 import { RoleService } from './role.service';
 
 @ApiTags('role')
@@ -21,12 +17,12 @@ export class RoleController {
 
   @ApiOperation({ summary: 'user role creation' })
   @ApiResponse({ status: 200 })
-  @Post('/{id}')
+  @Post('/')
   createUserRole(
     @Body() { roleId }: CreateUserRoleBody,
-    @Param() { id }: CreateUserRoleParams,
+    @Query('id') id: string,
   ) {
-    this.roleService.createUserRole({ roleId, id });
+    this.roleService.createUserRole({ id: Number(id), roleId });
     return 'ok';
   }
 

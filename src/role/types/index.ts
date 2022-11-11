@@ -19,20 +19,15 @@ export class CreateUserRoleParams {
   })
   readonly id: number;
 }
-export class CreateRoleDto extends CreateRoleBody {}
-
-export class CreateUserRoleDto extends CreateUserRoleParams {
+export class CreateUserRoleBody {
   @ApiProperty({
     example: 1,
     description: 'role id',
   })
   readonly roleId: number;
 }
-
-export class CreateUserRoleBody {
-  @ApiProperty({
-    example: 1,
-    description: 'role id',
-  })
+export class CreateRoleDto extends CreateRoleBody {}
+export class CreateUserRoleDto {
+  readonly id: number;
   readonly roleId: number;
 }
