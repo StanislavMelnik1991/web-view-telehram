@@ -18,7 +18,7 @@ export class AuthController {
   @ApiOperation({ summary: 'user login' })
   @ApiResponse({ status: 200, description: 'token: string' })
   @Post('signin')
-  signIn(@Body() dto: Omit<SignUpDto, 'name'>) {
+  signIn(@Body() dto: SignUpDto) {
     const user = this.authService.signIn(dto);
     return user;
   }

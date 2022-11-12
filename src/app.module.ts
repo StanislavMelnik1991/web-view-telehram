@@ -17,6 +17,7 @@ import { StepModule } from './step/step.module';
 import { RoleModule } from './role/role.module';
 import { Role } from './role/role.entity';
 import { AuthModule } from './auth/auth.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { AuthModule } from './auth/auth.module';
     StepModule,
     RoleModule,
     AuthModule,
+    FilesModule,
   ],
 })
 export class AppModule {}

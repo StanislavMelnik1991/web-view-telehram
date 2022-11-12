@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Param,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CardService } from './card.service';
 import { CreateCardDto } from './dto/card.dto';
@@ -9,14 +18,17 @@ export class CardController {
   constructor(private cardService: CardService) {}
   @ApiOperation({ summary: 'new card creation' })
   @ApiResponse({ status: 200 })
+  @UseInterceptors(FileInterceptor('img'))
   @Post('/:id')
   createCard(
     @Body() newCard: Omit<CreateCardDto, 'id'>,
     @Param('id') id: string,
+    @UploadedFile() img: any,
   ) {
     const cardId = this.cardService.createCard({
       ...newCard,
       id: Number(id),
+      img,
     });
     return cardId;
   }

@@ -2,11 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCardDto {
   @ApiProperty({
-    example:
-      'https://images.pexels.com/photos/38136/pexels-photo-38136.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    description: 'image url',
+    description: 'image',
   })
-  readonly img: string;
+  readonly img: any;
 
   @ApiProperty({ description: 'card name' })
   readonly name: string;
