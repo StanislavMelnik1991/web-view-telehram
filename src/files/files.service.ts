@@ -1,5 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { existsSync, mkdir, writeFile } from 'fs';
+import { mkdir, writeFile } from 'fs';
 import { resolve, join } from 'path';
 import { v1 } from 'uuid';
 
@@ -9,25 +9,12 @@ export class FilesService {
     try {
       const fileName = `${v1()}.jpg`;
       const filePath = resolve(__dirname, '..', 'static');
-      if (existsSync(filePath)) {
-        mkdir(filePath, { recursive: true }, (err) => {
-          if (err)
-            throw new HttpException(
-              'save file error',
-              HttpStatus.INTERNAL_SERVER_ERROR,
-            );
-          console.log('The file has been saved!');
-        });
-        writeFile(join(fileName, filePath), file.buffer, (err) => {
-          if (err)
-            throw new HttpException(
-              'save file error',
-              HttpStatus.INTERNAL_SERVER_ERROR,
-            );
-          console.log('The file has been saved!');
-        });
-      }
-      console.log(filePath);
+      mkdir(filePath, { recursive: true }, (err) => {
+        if (err) console.log(err);
+      });
+      writeFile(join(filePath, fileName), file.buffer, (err) => {
+        if (err) console.log(err);
+      });
       return fileName;
     } catch (e) {
       throw new HttpException(
