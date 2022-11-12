@@ -18,10 +18,15 @@ import { RoleModule } from './role/role.module';
 import { Role } from './role/role.entity';
 import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join, resolve } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: '.env' }),
+    ServeStaticModule.forRoot({
+      rootPath: resolve(__dirname, 'static'),
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
