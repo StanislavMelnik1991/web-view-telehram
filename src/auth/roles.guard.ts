@@ -8,7 +8,6 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 import { ROLE } from 'src/role/constants';
-import { Role } from 'src/role/role.entity';
 import { User } from 'src/user/user.entity';
 import { ROLES_KEY } from './roles.decorator';
 

@@ -4,7 +4,7 @@ import { ROLE } from 'src/role/constants';
 import { RoleService } from 'src/role/role.service';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
-import { SignUpDto } from './dto';
+import { BanUserDto, BecomeRoleDto, SignUpDto } from './dto';
 
 @Injectable()
 export class UserService {
@@ -14,9 +14,14 @@ export class UserService {
     private roleService: RoleService,
   ) {}
 
-  async createNewUser(dto: SignUpDto) {
+  async createNewUser({ email, name, password }: SignUpDto) {
     const role = await this.roleService.getRoleByRole(ROLE.USER);
-    let user = this.usersRepository.create({ ...dto, roles: [role] });
+    let user = this.usersRepository.create({
+      email: email.toLowerCase().trim(),
+      name: name.toLowerCase().trim(),
+      password,
+      roles: [role],
+    });
     user = await this.usersRepository.save(user);
     return user;
   }
@@ -32,6 +37,28 @@ export class UserService {
     const user = await this.usersRepository.find({
       relations: { roles: true },
     });
+    return user;
+  }
+
+  async becomeRole({ id, role }: BecomeRoleDto) {
+    // todo fix it!
+    const newRole = await this.roleService.getRoleByRole(role);
+    const user = await this.usersRepository
+      .createQueryBuilder()
+      .update({ roles: [newRole] })
+      .where({ id })
+      .returning('*')
+      .execute();
+    return user;
+  }
+
+  async banUser({ id, banReason, isBan }: BanUserDto) {
+    const user = await this.usersRepository
+      .createQueryBuilder()
+      .update({ isBaned: isBan, banReason })
+      .where({ id })
+      .returning('*')
+      .execute();
     return user;
   }
 }

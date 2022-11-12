@@ -38,6 +38,17 @@ export class User extends BaseEntity {
     nullable: false,
   })
   email!: string;
+
+  @ApiProperty({ example: 'true', description: 'is baned' })
+  @Column({
+    default: false,
+  })
+  isBaned!: boolean;
+  @ApiProperty({ example: 'hooliganism', description: 'ban reason' })
+  @Column({
+    nullable: true,
+  })
+  banReason!: string;
   @OneToMany(() => Round, (round) => round.winner)
   @OneToMany(() => Round, (round) => round.spy)
   @OneToMany(() => Step, (step) => step.user)
