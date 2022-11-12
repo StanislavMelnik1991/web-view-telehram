@@ -19,7 +19,7 @@ import { Role } from './role/role.entity';
 import { AuthModule } from './auth/auth.module';
 import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { join, resolve } from 'path';
+import { resolve } from 'path';
 
 @Module({
   imports: [

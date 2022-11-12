@@ -16,13 +16,14 @@ export class UserService {
     private roleService: RoleService,
   ) {}
 
-  async createNewUser({ email, name, password }: SignUpDto) {
+  async createNewUser({ email, name, password, img }: SignUpDto) {
     const role = await this.roleService.getRoleByRole(ROLE.USER);
     let user = this.usersRepository.create({
       email: email.toLowerCase().trim(),
       name: name.toLowerCase().trim(),
       password,
       roles: [role],
+      img,
     });
     user = await this.usersRepository.save(user);
     return user;

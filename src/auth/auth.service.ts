@@ -9,12 +9,14 @@ import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcryptjs';
 import { User } from 'src/user/user.entity';
 import { SignUpDto } from 'src/user/dto/createUser.dto';
+import { FilesService } from 'src/files/files.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    private fileService: FilesService,
   ) {}
 
   async signUp(dto: SignUpDto) {
@@ -22,10 +24,12 @@ export class AuthService {
     if (candidate) {
       throw new HttpException('user already exist', HttpStatus.BAD_REQUEST);
     }
-    const hashPassword = await bcrypt.hash(dto.password, 5);
+    const img = await this.fileService.createFile(dto.img);
+    const password = await bcrypt.hash(dto.password, 5);
     const user = await this.userService.createNewUser({
       ...dto,
-      password: hashPassword,
+      password,
+      img,
     });
     return this.generateToken(user);
   }
