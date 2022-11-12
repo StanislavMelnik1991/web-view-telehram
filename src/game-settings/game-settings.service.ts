@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateSettingDto } from './types';
+import { CreateSettingDto } from './dto/setting.dto';
 import { Settings } from './settings.entity';
 
 @Injectable()

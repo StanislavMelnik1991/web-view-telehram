@@ -19,13 +19,6 @@ export class GetAllGamesDto {
   @ApiProperty({ example: 'asc' })
   readonly sortField: string;
 }
-export class SignInDto {
-  @ApiProperty({ example: 'Ivan@mail.ru', description: 'user email' })
-  readonly email: string;
-
-  @ApiProperty({ example: 'password', description: 'user password' })
-  readonly password: string;
-}
 
 export class GetGameDto {
   @ApiProperty({

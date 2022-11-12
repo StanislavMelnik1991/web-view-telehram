@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CardService } from './card.service';
-import { CreateCardBody } from './types';
+import { CreateCardDto } from './dto/card.dto';
 
 @ApiTags('Card')
 @Controller('api/v1/cards')
@@ -10,10 +10,13 @@ export class CardController {
   @ApiOperation({ summary: 'new card creation' })
   @ApiResponse({ status: 200 })
   @Post('/:id')
-  createCard(@Body() newCard: CreateCardBody, @Param('id') id: string) {
+  createCard(
+    @Body() newCard: Omit<CreateCardDto, 'id'>,
+    @Param('id') id: string,
+  ) {
     const cardId = this.cardService.createCard({
       ...newCard,
-      settingsId: Number(id),
+      id: Number(id),
     });
     return cardId;
   }
@@ -22,7 +25,7 @@ export class CardController {
   @ApiResponse({ status: 200 })
   @Get('/:id')
   getCard(@Param('id') id: string) {
-    const card = this.cardService.getCard({ id: Number(id) });
+    const card = this.cardService.getCard(Number(id));
     return card;
   }
 
@@ -30,7 +33,7 @@ export class CardController {
   @ApiResponse({ status: 200 })
   @Get('/settings/:id')
   getAllCard(@Param('id') id: string) {
-    const cards = this.cardService.getAllCards({ id: Number(id) });
+    const cards = this.cardService.getAllCards(Number(id));
     return cards;
   }
 }

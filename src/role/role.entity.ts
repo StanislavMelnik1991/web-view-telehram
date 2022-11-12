@@ -8,7 +8,7 @@ import {
   ManyToMany,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { ROLE } from './constants';
+import { ROLE } from './role.constants';
 import { User } from 'src/user/user.entity';
 
 @Entity('role')

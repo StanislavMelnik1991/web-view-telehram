@@ -5,10 +5,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { SignInDto, SignUpDto } from 'src/user/dto';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcryptjs';
 import { User } from 'src/user/user.entity';
+import { SignUpDto } from 'src/user/dto/createUser.dto';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +30,7 @@ export class AuthService {
     return this.generateToken(user);
   }
 
-  async signIn(dto: SignInDto) {
+  async signIn(dto: Omit<SignUpDto, 'name'>) {
     const user: User = await this.validateUser(dto);
     return this.generateToken(user);
   }
@@ -42,7 +42,7 @@ export class AuthService {
     };
   }
 
-  private async validateUser({ email, password }: SignInDto) {
+  private async validateUser({ email, password }: Omit<SignUpDto, 'name'>) {
     try {
       const user = await this.userService.getUserByEmail(email);
       const passwordEquals = await bcrypt.compare(password, user.password);

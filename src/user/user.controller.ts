@@ -4,8 +4,8 @@ import { User } from 'src/user/user.entity';
 import { UserService } from './user.service';
 import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
-import { ROLE } from 'src/role/constants';
-import { BanUserBodyDto } from './dto';
+import { ROLE } from 'src/role/role.constants';
+import { BanUserDto } from './dto/ban.dto';
 
 @ApiTags('User')
 @Controller('api/v1/user')
@@ -24,8 +24,8 @@ export class UserController {
   @Roles(ROLE.ADMIN, ROLE.SUPER_ADMIN)
   @UseGuards(RolesGuard)
   @Post('admin/:id')
-  becomeAdmin(@Param('id') id: string) {
-    const user = this.userService.becomeRole({
+  addRoleAdmin(@Param('id') id: string) {
+    const user = this.userService.addRole({
       role: ROLE.ADMIN,
       id: Number(id),
     });
@@ -35,8 +35,8 @@ export class UserController {
   @Roles(ROLE.SUPER_ADMIN)
   @UseGuards(RolesGuard)
   @Post('super/:id')
-  becomeSuperAdmin(@Param('id') id: string) {
-    const user = this.userService.becomeRole({
+  addRoleSuperAdmin(@Param('id') id: string) {
+    const user = this.userService.addRole({
       role: ROLE.ADMIN,
       id: Number(id),
     });
@@ -47,7 +47,7 @@ export class UserController {
   @Post('ban/:id')
   banUser(
     @Param('id') id: string,
-    @Body() { isBan, banReason }: BanUserBodyDto,
+    @Body() { isBan, banReason }: Omit<BanUserDto, 'id'>,
   ) {
     const user = this.userService.banUser({
       banReason,

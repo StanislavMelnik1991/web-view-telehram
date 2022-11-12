@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ROLE } from 'src/role/constants';
+import { ROLE } from 'src/role/role.constants';
 import { RoleService } from 'src/role/role.service';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
-import { BanUserDto, BecomeRoleDto, SignUpDto } from './dto';
+import { BecomeRoleDto } from './dto/addRole.dto';
+import { BanUserDto } from './dto/ban.dto';
+import { SignUpDto } from './dto/createUser.dto';
 
 @Injectable()
 export class UserService {
@@ -40,7 +42,7 @@ export class UserService {
     return user;
   }
 
-  async becomeRole({ id, role }: BecomeRoleDto) {
+  async addRole({ id, role }: BecomeRoleDto) {
     // todo fix it!
     const newRole = await this.roleService.getRoleByRole(role);
     const user = await this.usersRepository

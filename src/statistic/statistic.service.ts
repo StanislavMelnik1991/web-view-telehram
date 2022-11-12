@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CardService } from 'src/card/card.service';
 import { DIFFICULTY } from 'src/game-settings/constants';
 import { GameSettingsService } from 'src/game-settings/game-settings.service';
-import { GetGameDto } from './types';
+import { GetGameDto } from './dto/statistic.dto';
 
 @Injectable()
 export class StatisticService {
