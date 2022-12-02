@@ -7,8 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
-import { ROLE } from 'src/role/role.constants';
-import { User } from 'src/user/user.entity';
+import { ROLE } from 'src/constants/user.constants';
 import { ROLES_KEY } from './roles.decorator';
 
 @Injectable()
@@ -18,7 +17,7 @@ export class RolesGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     try {
-      const requiredRoles = this.reflector.getAllAndOverride<Array<string>>(
+      const requiredRoles = this.reflector.getAllAndOverride<Array<ROLE>>(
         ROLES_KEY,
         [context.getHandler(), context.getClass()],
       );
@@ -30,15 +29,13 @@ export class RolesGuard implements CanActivate {
       if (type !== 'Bearer' || !token) {
         throw new UnauthorizedException({ message: 'unauthorized user' });
       }
-      const user: User = this.jwtService.verify(token);
+      const user: { id: number; role: ROLE } = this.jwtService.verify(token);
       req.user = user;
-      const findSuperAmin = user.roles.find(
-        (role) => role.role === ROLE.SUPER_ADMIN,
-      );
-      if (findSuperAmin) {
+
+      if (user.role === ROLE.SUPER_ADMIN) {
         return true;
       }
-      return user.roles.some((role) => requiredRoles.includes(role.role));
+      return requiredRoles.includes(user.role);
     } catch (e) {
       throw new UnauthorizedException({ message: 'unauthorized user' });
     }

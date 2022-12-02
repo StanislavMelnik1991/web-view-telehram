@@ -1,33 +1,22 @@
-import {
-  CreateDateColumn,
-  UpdateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  ManyToOne,
-} from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { BaseEntity } from 'src/base-utils/base.entity';
+import { User } from 'src/user/user.entity';
 import { Settings } from '../game-settings/settings.entity';
 
-@Entity('game')
+@Entity('games')
 export class Game extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @ApiProperty({ description: 'id game finished?' })
+  @Column({ nullable: false, default: false })
+  isFinished: boolean;
 
-  @Column({
-    nullable: true,
-  })
-  isFinish!: boolean;
+  @ApiProperty({ example: 'qwerty', description: 'game password' })
+  @Column({ nullable: true })
+  password: string;
 
-  @Column()
-  password!: string;
+  @ManyToOne(() => User, (user) => user.id)
+  creator: number;
 
   @ManyToOne(() => Settings, (settings) => settings.id)
-  setting!: number;
-
-  @CreateDateColumn()
-  createdAt!: Date;
-
-  @UpdateDateColumn()
-  updatedAt!: Date;
+  settings: number;
 }

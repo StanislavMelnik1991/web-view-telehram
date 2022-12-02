@@ -15,5 +15,17 @@
   "files.insertFinalNewline": true,
   "cSpell.words": [
     "typeorm"
+  ],
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "spy",
+      "database": "spy_db",
+      "username": "postgres",
+      "password": "root"
+    }
   ]
 }

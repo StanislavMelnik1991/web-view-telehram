@@ -1,61 +1,56 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
-import * as bcrypt from 'bcryptjs';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from 'src/user/user.entity';
-import { SignUpDto } from 'src/user/dto/createUser.dto';
 import { FilesService } from 'src/files/files.service';
+import { UserService } from 'src/user/user.service';
+import { CreateUserDTO, LoginUserDTO } from './dto/user.dto';
+import { hash } from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
-    private jwtService: JwtService,
+    private usersService: UserService,
     private fileService: FilesService,
+    private jwtService: JwtService,
   ) {}
 
-  async signUp(dto: SignUpDto) {
-    const candidate = await this.userService.getUserByEmail(dto.email);
-    if (candidate) {
-      throw new HttpException('user already exist', HttpStatus.BAD_REQUEST);
+  async createNewUser({ avatar, email, name, password }: CreateUserDTO) {
+    const duplicate = await this.usersService.findUserByEmail({ email });
+    if (duplicate) {
+      throw new HttpException(
+        'user with this email already exist',
+        HttpStatus.FORBIDDEN,
+      );
     }
-    const img = await this.fileService.createFile(dto.img);
-    const password = await bcrypt.hash(dto.password, 5);
-    const user = await this.userService.createNewUser({
-      ...dto,
-      password,
-      img,
+    const hashPassword = await hash(password, 5);
+    const image = await this.fileService.createImage({
+      file: avatar,
+      path: 'avatar',
+    });
+    const user = await this.usersService.createUser({
+      email,
+      name,
+      password: hashPassword,
+      avatar: image,
     });
     return this.generateToken(user);
   }
 
-  async signIn(dto: Omit<SignUpDto, 'name'>) {
-    const user: User = await this.validateUser(dto);
+  async login({ email }: LoginUserDTO) {
+    const user = await this.usersService.findUserByEmail({ email });
     return this.generateToken(user);
   }
 
-  private async generateToken({ email, id, roles }: User) {
-    const payload = { email, id, roles };
+  private async generateToken(user: User) {
+    const payload = {
+      id: user.id,
+      role: user.role,
+      email: user.email,
+      name: user.name,
+    };
+
     return {
       token: this.jwtService.sign(payload),
     };
-  }
-
-  private async validateUser({ email, password }: Omit<SignUpDto, 'name'>) {
-    try {
-      const user = await this.userService.getUserByEmail(email);
-      const passwordEquals = await bcrypt.compare(password, user.password);
-      if (!passwordEquals) {
-        throw new NotFoundException({ message: 'user not found' });
-      }
-      return user;
-    } catch (e) {
-      throw new NotFoundException({ message: 'user not found' });
-    }
   }
 }

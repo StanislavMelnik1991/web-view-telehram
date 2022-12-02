@@ -1,34 +1,12 @@
-import {
-  CreateDateColumn,
-  UpdateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  OneToMany,
-} from 'typeorm';
-import { Card } from '../card/card.entity';
-import { Game } from '../game/game.entity';
-import { DIFFICULTY } from './constants';
+import { Entity, Column } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { BaseEntity } from 'src/base-utils/base.entity';
+
+import { DIFFICULTY } from 'src/constants/game.constants';
 
 @Entity('settings')
 export class Settings extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
-  @Column({
-    unique: true,
-    type: 'enum',
-    enum: DIFFICULTY,
-  })
-  difficulty!: DIFFICULTY;
-
-  @OneToMany(() => Card, (card) => card.setting)
-  cards!: Card[];
-  @OneToMany(() => Game, (game) => game.setting)
-  @CreateDateColumn()
-  createdAt!: Date;
-
-  @UpdateDateColumn()
-  updatedAt!: Date;
+  @ApiProperty({ example: DIFFICULTY.NORMAL, description: 'game difficulty' })
+  @Column({ nullable: true })
+  difficulty: DIFFICULTY;
 }
